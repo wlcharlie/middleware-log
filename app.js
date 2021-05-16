@@ -19,7 +19,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/new', (req, res) => {
-  res.send('新增 Todo 頁面')
+  res.send(`新增 Todo 頁面
+  <form action="/" method="POST">
+    <button type="submit" value="123">POST</button>
+  </form>
+  `)
 })
 
 app.get('/:id', (req, res) => {
