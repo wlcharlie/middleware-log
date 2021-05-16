@@ -7,12 +7,18 @@ app.use((req, res, next) => {
   const theDate = new Date()
   const time = theDate.toLocaleString()
   const path = `| ${req.method} from ${req.path}`
+  const startTime = Date.now()
 
-  if (req.url !== '/favicon.ico') {
-    console.log(time, path)
-    next()
-  }
+  res.on('finish', () => {
+    if (req.url !== '/favicon.ico') {
+      const useTime = `| total time: ${Date.now() - startTime}ms`
+      console.log(time, path, useTime)
+    }
+  })
+
+  next()
 })
+
 
 app.get('/', (req, res) => {
   res.send('列出全部 Todo')
@@ -27,7 +33,7 @@ app.get('/new', (req, res) => {
 })
 
 app.get('/:id', (req, res) => {
-  res.send('顯示一筆 Todo')
+  setTimeout(() => res.send('顯示一筆 Todo'), 5000)
 })
 
 app.post('/', (req, res) => {
